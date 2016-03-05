@@ -4,34 +4,41 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
+	
+	public static ArrayList<Pessoa> listaPessoas = new ArrayList<Pessoa>();
+	
 	public static void main(String[] args) {
 
-		ArrayList<Pessoa> listaPessoas = new ArrayList<Pessoa>();
+		String nome = "";
+		int idade = 0;
+				
 		Scanner sc = new Scanner(System.in);
 
 		for(int x=1;x<3;x++){
-			Pessoa p = new Pessoa();
 			System.out.println("Informe o nome da "+ x +"º pessoa");
-			p.setNome(sc.nextLine());
+			nome = sc.nextLine();
 			System.out.println("Informe a idade: ");
-			p.setIdade(Integer.parseInt(sc.nextLine()));
-			listaPessoas.add(p);
+			idade = Integer.parseInt(sc.nextLine());
+			listaPessoas.add(new Pessoa(nome, idade));
 			System.out.println("Pessoa Cadastrada com sucesso!\n");
 		}
-
-		System.out.println("Informe o nome para buscar:");
-		String busca = (sc.nextLine());
-		for(Pessoa ps: listaPessoas){
-			if(ps.getNome().equals(busca)){
-				System.out.println("Nome: "+ps.getNome());
-				System.out.println("Idade: "+ps.getIdade());
-			}
+		
+		System.out.println("\nBusca!\n");
+		System.out.println("Informe o nome:");
+		String busca = sc.nextLine();
+		System.out.println("\nResultado da Pesquisa: ");
+		for(Pessoa y: buscaPorNome(busca)){
+			System.out.println(y.getNome());
 		}
 		
+		System.out.println("\nBusca mais velho: \n");
+		buscaMaisVelho();
+		
+	}
+	
+	private static void buscaMaisVelho(){
 		System.out.println("\nPessoa mais Velha!\n");
-		Pessoa maisVelho = new Pessoa();
-		maisVelho.setIdade(0);
+		Pessoa maisVelho = listaPessoas.get(0);
 
 		for(Pessoa ps: listaPessoas){
 			if(ps.getIdade() > maisVelho.getIdade()){
@@ -39,6 +46,17 @@ public class Main {
 			}
 		}
 		System.out.println("Mais velho: " + maisVelho.getNome());
-
+		return;
+	}
+	
+	private static ArrayList<Pessoa> buscaPorNome(String busca){
+		ArrayList<Pessoa> listaResultado = new ArrayList<Pessoa>();	
+		for(Pessoa x: listaPessoas){
+			if(busca.equalsIgnoreCase(x.getNome())){
+				listaResultado.add(x);
+				
+			}
+		}
+		return listaResultado;
 	}
 }
